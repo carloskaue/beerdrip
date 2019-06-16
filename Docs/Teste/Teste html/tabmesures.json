@@ -1,0 +1,18 @@
+{
+	"T01":{"marca":"Marca","tipo":"Ipa","quantidade":"10.00L","preço":"R$10.00L"},
+    "T02":{"marca":"Marca2","tipo":"Apa","quantidade":"50.00L","preço":"R$10.00L"},
+    "T03":{"marca":"Marca3","tipo":"Larger","quantidade":"5.65L","preço":"R$10.00L"},
+    "T04":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T05":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T06":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T07":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T08":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T09":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T10":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T11":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T12":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T13":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T14":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T15":{"marca":"","tipo":"","quantidade":"","preço":""},
+    "T16":{"marca":"","tipo":"","quantidade":"","preço":""}
+}

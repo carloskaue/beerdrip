@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport">
+    	<script src="js/jquery.min.js"></script>
+    	<script src="js/bootstrap.min.js"></script>
+    	<script src="js/bootstrap-table.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+	</head>
+	<body>
+		<nav role="navigation" class="light-blue lighten-1">
+			<div class="nav-wrapper container">
+				<!--
+				<a href="#" data-activates="nav-mobile" class="button-collapse white-text">
+				<i class="material-icons">menu</i></a>
+			-->
+				<a id="logo-container" class="brand-logo white-text">Beer Drop </a>
+			</div>
+		</nav>
+		<script type="text/javascript">
+			$('.button-collapse').sideNav();
+		</script>
+		<div class="center-box">
+			<div id="tab_mesures" class="tab-pane fade in active"><br/>
+				<table id="table_mesures" data-toggle="table" data-show-colunns="true" data-url="tabmesures.json" >
+					<thead>
+						<tr>
+							<th data-field="torneira" data-align="left" data-sortable="true">
+								<img align="middle" src="https://img.icons8.com/color/48/000000/beer-pump.png" >
+								Torneira
+							</th>
+							<th data-field="marca" data-align="left">
+								<img align="middle" src="https://img.icons8.com/color/30/000000/beer-bottle-cap.png">
+								Marca
+							</th>
+							<th data-field="tipo" data-align="left">
+								<img align="middle" src="https://img.icons8.com/color/30/000000/hops.png">
+								Tipo
+							</th>
+							<th data-field="quantidade" data-align="left">
+								<img align="middle" src="https://img.icons8.com/color/30/000000/beer-keg.png"	>
+								Quantidade
+							</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div><!-- this page is generateded by Gramateria -->
+		<script>
+      var Timer_UdpateMesures;
+      
+      $('a[data-toggle=\"tab\"]').on('shown.bs.tab', function (e) {   
+        // apaga todos os timers ao mudar de abas
+        clearTimeout(Timer_UdpateMesures);  
+        var target = $(e.target).attr("href")  
+        console.log('activated ' + target );  
+      
+        // IE10, Firefox, Chrome, etc.
+        if (history.pushState) 
+          window.history.pushState(null, null, target);
+        else 
+          window.location.hash = target;
+        
+        if (target=='#tab_mesures')  
+		{
+          $('#table_mesures').bootstrapTable('refresh',{silent:true, url:'/tabmesures.json'}); 
+        }  
+      });
+      
+      // Cria um timer que atualiza os dados regularmente - Cria um timer que atualiza os dados a cada n segundos
+      $('#tab_mesures').on('load-success.bs.table',function (e,data){
+        console.log("tab_mesures loaded");
+        if ($('.nav-tabs .active > a').attr('href')=='#tab_mesures') {
+          Timer_UdpateMesures=setTimeout(function(){
+            $('#table_mesures').bootstrapTable('refresh',{silent: true, showLoading: false, url: '/tabmesures.json'});
+            updateMesures();
+          },10000);
+        }                 
+      });   
+
+      function updateMesures(){
+        $.getJSON('/mesures.json', function(data){
+          console.log("Mesures envoyees : " + JSON.stringify(data) + "|" + data.t + "|" + data.h + "|" + data.pa) ;
+          $('#temperature').html(data.t);
+          $('#humidite').html(data.h);
+          $('#pa').html(data.pa); 
+        }).fail(function(err){
+          console.log("err getJSON mesures.json "+JSON.stringify(err));
+        });
+      };
+  
+      function labelFormatter(value, row){
+        //console.log("labelFormatter");
+        //console.log(value);
+        console.log(row);
+        var label = "";
+        if ( value === "Température" ) {
+          label = value + "<span class='glyphicon " + row.glyph + " pull-left'></span>";
+        } else if ( value === "Humidité" ) {
+          label = value + "<span class='glyphicon " + row.glyph + " pull-left'></span>";
+        } else if ( value === "Pression Atmosphérique" ) {
+          label = value + "<span class='glyphicon " + row.glyph + " pull-left'></span>";
+        } else {
+          label = value;
+        } 
+        return label;
+      }
+      function valueFormatter(value, row){
+        //console.log("valueFormatter");
+        var label = "";
+        if ( row.valeur > row.precedente ) {
+          label = value + row.unite + "<span class='glyphicon glyphicon-chevron-up pull-right'></span>";
+        } else { 
+          label = value + row.unite + "<span class='glyphicon glyphicon-chevron-down pull-right'></span>";
+        }
+        return label;
+      }
+      function vpFormatter(value, row){
+        //console.log("valueFormatter");
+        var label = "";
+        if ( row.valeur > row.precedente ) {
+          label = value + row.unite
+        } else { 
+          label = value + row.unite
+        }
+        return label;
+      }  
+      
+      // Stockage local disponible? - armazenamento local disponível?
+      function supports_html5_storage(){
+        try {
+          return 'localStorage' in window && window['localStorage'] !== null;
+        } catch (e) {
+          return false;
+        }
+      }
+    </script>
+  
+	</body>
+
+</html>
+
+<a align="middle" href="https://icons8.com">Icon pack by Icons8</a>
