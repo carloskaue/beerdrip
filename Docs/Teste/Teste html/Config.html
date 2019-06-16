@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>JavaScript - read JSON from URL</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+
+
+<table>
+<tr> <td>            </td> <td> Atual </td><td> Novo </td></tr>
+<tr> <td>Torneira:   </td> <td><div class="Tor">   </div></td> <td> <input type="text" name="Torneira" >   </td></tr>
+<tr> <td>Marca:      </td> <td><div class="Mar">   </div></td> <td> <input type="text" name="Marca" >      </td></tr>
+<tr> <td>Tipo:       </td> <td><div class="Tip">   </div></td> <td> <input type="text" name="Tipo" >       </td></tr>
+<tr> <td>Quantidade: </td> <td><div class="Qua"> </div></td> <td> <input type="text" name="Quantidade" > </td></tr>
+<tr> <td>Preço:      </td> <td><div class="Pre">   </div></td> <td> <input type="text" name="Preco" >      </td></tr>
+</table>
+
+<table>
+    
+    <tr>
+<td><button onclick="T01()">T01</button></td>
+<td><button onclick="T02()">T02</button></td>
+<td><button onclick="T03()">T03</button></td>
+<td><button onclick="T04()">T04</button></td>        
+    </tr>
+
+        <tr>
+<td><button onclick="T05()">T05</button></td>
+<td><button onclick="T06()">T06</button></td>
+<td><button onclick="T07()">T07</button></td>
+<td><button onclick="T08()">T08</button></td>        
+    </tr>
+
+        <tr>
+<td><button onclick="T09()">T09</button></td>
+<td><button onclick="T10()">T10</button></td>
+<td><button onclick="T11()">T11</button></td>
+<td><button onclick="T12()">T12</button></td>        
+    </tr>
+
+        <tr>
+<td><button onclick="T13()">T13</button></td>
+<td><button onclick="T14()">T14</button></td>
+<td><button onclick="T15()">T15</button></td>
+<td><button onclick="T16()">T16</button></td>        
+    </tr>
+</table>
+
+
+<input type="submit" value="Submit">
+
+<script>
+function T01() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T01");        
+            $(".Mar").html(`${data.T01.marca}<br>`); 
+            $(".Tip").html(`${data.T01.tipo}<br>`);
+            $(".Qua").html(`${data.T01.quantidade}<br>`);
+            $(".Pre").html(`${data.T01.preço}<br>`);
+    });}
+function T02() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T02");        
+            $(".Mar").html(`${data.T02.marca}<br>`); 
+            $(".Tip").html(`${data.T02.tipo}<br>`);
+            $(".Qua").html(`${data.T02.quantidade}<br>`);
+            $(".Pre").html(`${data.T02.preço}<br>`);
+    });}
+     function T03() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T03");        
+            $(".Mar").html(`${data.T03.marca}<br>`); 
+            $(".Tip").html(`${data.T03.tipo}<br>`);
+            $(".Qua").html(`${data.T03.quantidade}<br>`);
+            $(".Pre").html(`${data.T03.preço}<br>`);
+    });}
+     function T04() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T04");        
+            $(".Mar").html(`${data.T04.marca}<br>`); 
+            $(".Tip").html(`${data.T04.tipo}<br>`);
+            $(".Qua").html(`${data.T04.quantidade}<br>`);
+            $(".Pre").html(`${data.T04.preço}<br>`);
+    });}
+         function T05() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T05");        
+            $(".Mar").html(`${data.T05.marca}<br>`); 
+            $(".Tip").html(`${data.T05.tipo}<br>`);
+            $(".Qua").html(`${data.T05.quantidade}<br>`);
+            $(".Pre").html(`${data.T05.preço}<br>`);
+    });}
+         function T06() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T06");        
+            $(".Mar").html(`${data.T06.marca}<br>`); 
+            $(".Tip").html(`${data.T06.tipo}<br>`);
+            $(".Qua").html(`${data.T06.quantidade}<br>`);
+            $(".Pre").html(`${data.T06.preço}<br>`);
+    });}
+         function T07() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T07");        
+            $(".Mar").html(`${data.T07.marca}<br>`); 
+            $(".Tip").html(`${data.T07.tipo}<br>`);
+            $(".Qua").html(`${data.T07.quantidade}<br>`);
+            $(".Pre").html(`${data.T07.preço}<br>`);
+    });}
+         function T08() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T08");        
+            $(".Mar").html(`${data.T08.marca}<br>`); 
+            $(".Tip").html(`${data.T08.tipo}<br>`);
+            $(".Qua").html(`${data.T08.quantidade}<br>`);
+            $(".Pre").html(`${data.T08.preço}<br>`);
+    });}
+         function T09() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T09");        
+            $(".Mar").html(`${data.T09.marca}<br>`); 
+            $(".Tip").html(`${data.T09.tipo}<br>`);
+            $(".Qua").html(`${data.T09.quantidade}<br>`);
+            $(".Pre").html(`${data.T09.preço}<br>`);
+    });}
+         function T10() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T10");        
+            $(".Mar").html(`${data.T10.marca}<br>`); 
+            $(".Tip").html(`${data.T10.tipo}<br>`);
+            $(".Qua").html(`${data.T10.quantidade}<br>`);
+            $(".Pre").html(`${data.T10.preço}<br>`);
+    });}   
+    function T11() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T11");        
+            $(".Mar").html(`${data.T11.marca}<br>`); 
+            $(".Tip").html(`${data.T11.tipo}<br>`);
+            $(".Qua").html(`${data.T11.quantidade}<br>`);
+            $(".Pre").html(`${data.T11.preço}<br>`);
+    });}
+         function T12() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T12");        
+            $(".Mar").html(`${data.T12.marca}<br>`); 
+            $(".Tip").html(`${data.T12.tipo}<br>`);
+            $(".Qua").html(`${data.T12.quantidade}<br>`);
+            $(".Pre").html(`${data.T12.preço}<br>`);
+    });}
+             function T13() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T13");        
+            $(".Mar").html(`${data.T13.marca}<br>`); 
+            $(".Tip").html(`${data.T13.tipo}<br>`);
+            $(".Qua").html(`${data.T13.quantidade}<br>`);
+            $(".Pre").html(`${data.T13.preço}<br>`);
+    });}
+             function T14() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T14");        
+            $(".Mar").html(`${data.T14.marca}<br>`); 
+            $(".Tip").html(`${data.T14.tipo}<br>`);
+            $(".Qua").html(`${data.T14.quantidade}<br>`);
+            $(".Pre").html(`${data.T14.preço}<br>`);
+    });}
+             function T15() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T15");        
+            $(".Mar").html(`${data.T15.marca}<br>`); 
+            $(".Tip").html(`${data.T15.tipo}<br>`);
+            $(".Qua").html(`${data.T15.quantidade}<br>`);
+            $(".Pre").html(`${data.T15.preço}<br>`);
+    });}
+             function T16() {
+        $.getJSON('tabmesures.json', function(data) 
+        {
+            $(".Tor").html("T16");        
+            $(".Mar").html(`${data.T16.marca}<br>`); 
+            $(".Tip").html(`${data.T16.tipo}<br>`);
+            $(".Qua").html(`${data.T16.quantidade}<br>`);
+            $(".Pre").html(`${data.T16.preço}<br>`);
+    });}  
+</script>
+
+<!--
+    <script>
+        $.getJSON('tabmesures.json', function(data) {        
+        var ssid = `${data.T001.marca}<br>`
+        var pass = `${data.T001.tipo}<br>`
+        $(".Torneira").html(`${data.T001.marca}<br>`); });
+
+    </script>
+    -->
+</body>
+
+</html>

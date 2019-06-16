@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+    </head>
+    <body>
+        <script type="text/javascript">
+            $('.button-collapse').sideNav();
+        </script>
+        <div class="row"></div>
+        <div id="modal1" class="modal modal-fixed-footer black-text">
+            <div class="modal-content">
+                <h4>T001</h4>
+                <p> 
+    <div class="ssid"></div>
+    <div class="password"></div>
+
+
+    <script>
+        $.getJSON('wificonfig.json', function(data) {        
+        var ssid = `${data.ssid}<br>`
+        var pass = `${data.password}<br>`
+        $(".ssid").html(ssid);   $(".password").html(pass); });
+
+    </script></script>
+
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree1</a>
+            </div>
+        </div>
+
+        <script type="text/javascript">$(".modal").modal();</script>
+        <div class="row">
+            <div class="center-box">
+                <a href="#modal1" class="waves-effect waves-light btn modal-trigger orange">T001</a>
+                <div id="modal1" class="modal modal-fixed-footer black-text">
+                    <div class="modal-content">
+                        <h4>T001</h4>
+                        <p>T001</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+                    </div>
+                </div>
+
+
+                <script type="text/javascript">$(".modal").modal();</script>
+            </div>
+        </div><!-- this page is generateded by Gramateria -->
+
+
+
+</body>
+</html>
