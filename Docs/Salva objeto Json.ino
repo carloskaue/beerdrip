@@ -5,6 +5,30 @@
 
 const char* wificonfig_file = "/wificonfig.txt";
 File f;
+void createFile(String path)
+{
+  File wFile;
+  // Cria o arquivo caso ele não exita.
+  if(SPIFFS.exists(path))
+  {
+    Serial.println("Arquivo existe");
+  }
+  else
+  {
+    Serial.println("Criando o arquivo");
+    wFile = SPIFFS.open(path, "w+");
+    if(!WFile)
+    {
+      Serial.println("Erro ao criar o arquivo, reiniciando o esp");
+      ESP.restar();
+    }
+    else
+    {
+      Serial.println("Arquivo criado com sucesso");
+    }
+  }
+  wFile.close();
+}
 /**
   * @desc escreve conteúdo em um arquivo
   * @param string state - conteúdo a se escrever no arquivo
@@ -94,31 +118,12 @@ void setup()
   {
     // O arquivo não existe 
     ///////////////////////
-    Serial.println("O arquivo não existe");
-    // Abre como escrita
-    f = SPIFFS.open(wificonfig_file, "w");
+    createFile(wificonfig_file);
 
-    // Verifica se ocorreu a abertura do arquivo
-    if (!f) 
-    {
-      // Não abriu o arquivo
-      //////////////////////
+    writeFile("{\"wifi\":{\"ssid\":\"KAUE\",\"password\":\"cadu2011\"}}", wificonfig_file);
+    Serial.print("Reiniciando ESP");
+    ESP.restar();
 
-      // sinaliza que não abriu o arquivo
-      Serial.println("não abriu o arquivo");
-    }
-
-    // Conteudo do Json
-    char json[] ="{\"wifi\":{\"ssid\":\"KAUE\",\"password\":\"cadu2011\"}}";
-    DeserializationError error = deserializeJson(doc, json);
-
-
-    // Test if parsing succeeds.
-    if (error) {
-      Serial.print(F("deserializeJson() failed: "));
-      Serial.println(error.c_str());
-      return;
-    }
 
   }
  
