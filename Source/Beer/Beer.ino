@@ -5,6 +5,10 @@
 #include <FS.h>
 #include <WiFiClient.h>
 
+#include <NTPClient.h>//Biblioteca do NTP.
+#include <WiFiUdp.h>
+
+
 #define NEW_LINE "a+"
 #define NEW_DOC "w+"
 
@@ -12,10 +16,6 @@
 #define APSSID "BeerDrip"
 #define APPSK  "0123456789"
 #endif
-
-typedef void (*Operacao)(void);
-
-Operacao ponteiroFuncao;
 
 const char* password;
 const char* ssid;
@@ -45,8 +45,29 @@ const char MAIN_page[] PROGMEM = R"=====(
 
 ESP8266WebServer server(80);
 
+WiFiUDP udp;//Cria um objeto "UDP".
+NTPClient timeClient(udp, "a.st1.ntp.br", -3 * 3600, 60000);//Cria um objeto "NTP" com as configurações.
+
+
 void CreatWifi(void);
 
+void setupNTP()
+{
+    //Inicializa o client NTP
+    timeClient.begin();
+     
+    //Espera pelo primeiro update online
+    Serial.println("Waiting for first update");
+    while(!timeClient.update())
+    {
+        Serial.print(".");
+        timeClient.forceUpdate();
+        delay(500);
+    }
+ 
+    Serial.println();
+    Serial.println("First Update Complete");
+}
 
  /**
   * @desc inicializa o sistema de arquivos
@@ -255,9 +276,16 @@ void setup()
     str += "\",\"LastConection\":\"T\"}}";
     writeFile(str, wificonfig_file, NEW_DOC);
    }
+
+   setupNTP();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   server.handleClient();
+  timeClient.update();                              // atualiza o relogio
+  Serial.print(timeClient.getEpochTime());
+  Serial.print("\t");
+  Serial.println(timeClient.getFormattedTime());    // print do relogio da WEB
+  delay(1000);                                      // atraso de um segundo
 }
