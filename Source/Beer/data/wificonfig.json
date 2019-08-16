@@ -1,1 +1,2 @@
-{"wifi":{"ssid":"Kaue","password":"cadu201","LastConection":'F'}}
+{"wifi":{"ssid":"Kaue","password":"cadu201","LastConection":'F'},"authentication ":{"email":"admin@teste.com","password":"qweqwe123","token":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyfQ.JpqTQAbNqTQrzw1F5QbhS0sstFZSWG30OPe0AM7WiwA"}
+}

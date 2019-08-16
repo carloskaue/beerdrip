@@ -1,4 +1,4 @@
-#include <ArduinoJson.h>
+                                       #include <ArduinoJson.h>
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
@@ -17,10 +17,15 @@
 #define APPSK  "0123456789"
 #endif
 
-const char* password;
-const char* ssid;
-const char* LastConection;
+
+const char* PASSWORD_SSID;
+const char* SSID;
+const char* LAST_CONECTION;
+const char* EMAIL;
+const char* PASSWORD_EMAIL;
+const char* TOKEN;
 const char* wificonfig_file = "/wificonfig.json";
+const char* beer_file = "/beer";
 const char MAIN_page[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
@@ -33,8 +38,8 @@ const char MAIN_page[] PROGMEM = R"=====(
   SSID:<br>
   <input type="text" name="SSID" value="Mickey">
   <br>
-  PASSWORD:<br>
-  <input type="text" name="PASSWORD" value="Mouse">
+  PASSWORD_SSID:<br>
+  <input type="text" name="PASSWORD_SSID" value="Mouse">
   <br><br>
   <input type="submit" value="Submit">
 </form> 
@@ -145,7 +150,7 @@ void ConectToWifi(void)
   WiFi.softAPdisconnect();
   WiFi.disconnect();
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.begin(SSID, PASSWORD_SSID);
   
   uint8 byteRetentativas = 0;
 
@@ -158,11 +163,11 @@ void ConectToWifi(void)
       Serial.println("Conecção Falha");
 
 
-      String str = "{\"wifi\":{\"ssid\":\"";
-      str += ssid;
-      str += "\",\"password\":\"";
-      str += password;
-      str += "\",\"LastConection\":\"F\"}}";
+      String str = "{\"wifi\":{\"SSID\":\"";
+      str += SSID;
+      str += "\",\"PASSWORD_SSID\":\"";
+      str += PASSWORD_SSID;
+      str += "\",\"LAST_CONECTION\":\"F\"}}";
       writeFile(str, wificonfig_file, NEW_DOC);
       ESP.restart();
     }
@@ -183,19 +188,19 @@ void handleRoot() {
 void handleForm() 
 {
   String ssid = server.arg("SSID"); 
-  String password = server.arg("PASSWORD"); 
+  String password_ssid = server.arg("PASSWORD_SSID"); 
 
-  Serial.print("ssid: ");
+  Serial.print("SSID: ");
   Serial.println(ssid);
 
-  Serial.print("password: ");
-  Serial.println(password);
+  Serial.print("PASSWORD_SSID: ");
+  Serial.println(password_ssid);
 
-  String str = "{\"wifi\":{\"ssid\":\"";
+  String str = "{\"wifi\":{\"SSID\":\"";
   str += ssid;
-  str += "\",\"password\":\"";
-  str += password;
-  str += "\",\"LastConection\":\"T\"}}";
+  str += "\",\"PASSWORD_SSID\":\"";
+  str += password_ssid;
+  str += "\",\"LAST_CONECTION\":\"T\"}}";
 
   String s = "<a href='/'> Go Back </a>";
   server.send(200, "text/html", s); //Send web page
@@ -207,7 +212,7 @@ void handleForm()
 void CreatWifi(void)
 {  
 
-  /* You can remove the password parameter if you want the AP to be open. */
+  /* You can remove the PASSWORD_SSID parameter if you want the AP to be open. */
     WiFi.softAP(APSSID, APPSK);
 
     IPAddress myIP = WiFi.softAPIP();
@@ -227,7 +232,7 @@ void setup()
   while (!Serial) continue;
 
   // // Estancia um objeto Json
-   StaticJsonDocument<150> doc;
+   StaticJsonDocument<500> doc;
 
    openFS();
 
@@ -254,12 +259,26 @@ void setup()
     serializeJson(doc,Serial);
     Serial.println();
 
-    ssid = doc["wifi"]["ssid"];
-    password = doc["wifi"]["password"];
-    LastConection =  doc["wifi"]["LastConection"];
-    Serial.println(LastConection);
-    
-    switch(LastConection[0])
+    SSID           = doc["wifi"]["SSID"];
+    PASSWORD_SSID  = doc["wifi"]["PASSWORD_SSID"];
+    LAST_CONECTION = doc["wifi"]["LAST_CONECTION"];
+	EMAIL          = doc["authentication"]["email"];
+	PASSWORD_EMAIL = doc["authentication"]["password"];    
+	TOKEN          = doc["authentication"]["token"];
+
+
+	Serial.println("Dados da conexão\n************************");
+	Serial.print("Ssid:\t");Serial.println(SSID          );
+	Serial.print("Password:\t");Serial.println(PASSWORD_SSID );
+	Serial.print("Ultima conexão:\t");Serial.println(LAST_CONECTION);
+	Serial.print("Email:\t");Serial.println(EMAIL         );
+	Serial.print("Password:\t");Serial.println(PASSWORD_EMAIL);
+	Serial.print("Token:\t");Serial.println(TOKEN         );
+	Serial.println("************************");
+
+	Serial.print()
+
+    switch(LAST_CONECTION[0])
     {
       case 'F': {Serial.print("É igual a F");CreatWifi();}break;
       case 'T': {Serial.print("É igual a T"); ConectToWifi();}break;
@@ -269,23 +288,77 @@ void setup()
    else
   {
     Serial.println("O arquivo não existe");
-    String str = "{\"wifi\":{\"ssid\":\"";
+    String str = "{\"wifi\":{\"SSID\":\"";
     str += APSSID;
-    str += "\",\"password\":\"";
+    str += "\",\"PASSWORD_SSID\":\"";
     str += APPSK;
-    str += "\",\"LastConection\":\"T\"}}";
+    str += "\",\"LAST_CONECTION\":\"T\"}}";
     writeFile(str, wificonfig_file, NEW_DOC);
    }
 
    setupNTP();
 }
 
+void SendData(void)
+{
+	if(SPIFFS.exists(beer_file))
+	{
+		File rFile = SPIFFS.open(beer_file,"r"); 
+
+		Serial.print("Tamanho Arquivo:\t");
+		Serial.print(rFile.size())
+		rFile.close();
+		/*
+		 if (WiFi.status () == WL_CONNECTED) 
+		 {
+		 	HTTPClient http; 
+        http.begin (host, "08 3B 71 72 02 43 6E CA ED 42 86 93 BA 7E DF 81 C4 BC 62 30"); 
+        http.addHeader("Content-Type", "application/json");
+
+
+
+        String postMessage = "{\"consumptions\":[{\"resource\": \"t1010\",\"quantity\": 5,\"time\": 123}]}";//{\"email\":\"mandakeru@gmail.com\",\"password\":\"qweqwe123\"}";
+        int httpCode = http.POST("{\"email\":\"admin@teste.com\",\"password\":\"qweqwe123\"}");
+        Serial.print("http result:");
+        // httpcode 200
+        Serial.println(httpCode);
+          //http.writeToStream(&Serial);
+        String payload = http.getString();
+        Serial.println(payload);        
+        http.end();
+
+        http.begin (host2, "08 3B 71 72 02 43 6E CA ED 42 86 93 BA 7E DF 81 C4 BC 62 30"); 
+        http.addHeader("Content-Type", "application/json");
+        http.addHeader("Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyfQ.JpqTQAbNqTQrzw1F5QbhS0sstFZSWG30OPe0AM7WiwA");
+        httpCode = http.POST("{\"consumptions\":[{\"resource\": \"T010\",\"quantity\": 500,\"time\": 123}]}");
+        Serial.print("http result:");
+        //httpcode 201
+        Serial.println(httpCode);
+        payload = http.getString();
+        Serial.println(payload);        
+        http.end();
+
+		 }
+*/
+	}
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
   server.handleClient();
-  timeClient.update();                              // atualiza o relogio
+
+  // atualiza o relogio
+  timeClient.update();                              
   Serial.print(timeClient.getEpochTime());
   Serial.print("\t");
-  Serial.println(timeClient.getFormattedTime());    // print do relogio da WEB
+  // print do relogio da WEB
+  Serial.println(timeClient.getFormattedTime());    
   delay(1000);                                      // atraso de um segundo
+
+
+
+	SendData();
+
+
+
 }
