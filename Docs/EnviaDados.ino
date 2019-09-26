@@ -39,7 +39,43 @@ void setup() {
   }
 
   WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP("Kaue", "Cadu2011");
+  WiFiMulti.addAP("Mi8", "0AB6996A");
+
+  //Abre o sistema de arquivos
+  if(!SPIFFS.begin())
+  {
+    Serial.println("\nErro ao abrir o sistema de arquivos\n\n");
+  } 
+  else
+  {
+    Serial.println("\nSistema de arquivos aberto com sucesso!");
+  }
+    // // verifica se o arquivo existe
+  if(SPIFFS.exists("/consumo.txt"))
+   {
+      File rFile = SPIFFS.open("/consumo.txt","r"); 
+
+    if(!rFile)
+    {
+        Serial.println("Erro ao abrir arquivo para escrever!");
+        return;
+      }
+      else
+      {
+        Serial.println("Ok");
+      }
+      while(rFile.available())
+    {
+      Serial.print(rFile.readStringUntil('\r'));
+
+    }
+   }
+   else
+   {
+    Serial.println("Arquivo não exite");
+   }
+
+
 }
 
 void loop () {
