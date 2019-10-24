@@ -1,4 +1,0 @@
-Timers	KEYWORD1
-getMillis	KEYWORD2
-settimer	KEYWORD2
-IsTimeout	KEYWORD2

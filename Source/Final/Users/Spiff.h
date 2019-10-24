@@ -12,9 +12,17 @@ public:
 	bool create();
 	String ReadLine(uint8_t offset);
 	bool Writeline(String str);
+	bool Write(String str);
+	void ResetPosition(void);
+	void SetNewPosition(void);
+	String  ReadLineToSend();
+	bool AlreadyReachedEndOfFile(void);
+	void RemoveFile(void);
+	
 private:
 	String PATH;
 	File file;
-	unsigned long position;
+	unsigned long mlNextposition;
+	unsigned long mlOldposition;
 };
 #endif

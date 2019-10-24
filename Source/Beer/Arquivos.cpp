@@ -53,7 +53,7 @@ bool creadFile(String path)
 bool writeFile(String state, String path, char* str) { 
 	//Abre o arquivo para escrita ("w" write)
 	//Sobreescreve o conteúdo do arquivo
-	File rFile = SPIFFS.open(path,str); 
+	File rFile = SPIFFS.open(path,"w+"); 
 	if(!rFile)
 	{
 		Serial.println("Erro ao abrir arquivo para escrever!");

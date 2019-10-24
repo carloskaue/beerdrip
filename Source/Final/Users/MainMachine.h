@@ -5,12 +5,14 @@
 
 typedef enum tagMainMachineState
 {
-	MM_Init,
-	MM_Init_SPIFF,
-	MM_Wifi_Conection,
-	MM_Wifi_Configuration,
-	MM_Init_NTP,
-
+	MM_Init, 				// Inicialização do sistema
+	MM_Init_SPIFF, 			// Inicialização dos arquivos
+	MM_Wifi_Conection, 		// Conexão com o Wifi
+	MM_Wifi_Configuration, 	// Configuração do Wifi
+	MM_Init_NTP, 			// Configuração do servido NTP
+	MM_Init_SPI, 			// Inicialização da comunicação com o MSP
+	MM_Get_data_Msp,		// Pega os dados do Msp
+	MM_Send_data,			// Envia os dados para o servidor
 
 	MM_INVALID
 
@@ -40,13 +42,12 @@ public:
 	MainMachine(uint8_t ime);
 	void mainLoop();
 	void begin(uint8_t time);
-	void setTimeout(uint8_t time);
+	void setTimeout(uint16_t time);
 	void setState(MainMachineState udtState);
 	void mainMachineEvents(EVENT udtEvent);
+	
 private:
 	void debugMainmachuine(MainMachineState state, EVENT event );
-	//void handleForm();
-	//void handleRoot();
 	MainMachineState mudtMainMachineState;
 	MainMachineState mudtMainMachineNextState;
 	uint8_t mbytMainMachineTimer;

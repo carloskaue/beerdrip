@@ -1,6 +1,5 @@
-#include "Timers.h"
+
 #include "MainMachine.h"
-#include "Spiff.h"
 
 MainMachine mainMachine(1);
 
@@ -10,12 +9,10 @@ void setup()
 	while (!Serial) continue;
 
 	mainMachine.begin(1);
+	pinMode(SS, OUTPUT);
 }
 
 void loop()
 {
 	mainMachine.mainLoop();
-	
-	delay(1000);
-
 }

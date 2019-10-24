@@ -107,15 +107,6 @@ void handleForm()
 void CreatWifi(void)
 {  
 
-  /* You can remove the PASSWORD_SSID parameter if you want the AP to be open. */
-    WiFi.softAP(APSSID, APPSK);
 
-    IPAddress myIP = WiFi.softAPIP();
-    Serial.print("AP IP address: ");
-    Serial.println(myIP);
-    server.on("/", handleRoot);      //Which routine to handle at root location
-    server.on("/action_page", handleForm); //form action is handled here
-    server.begin();
-    Serial.println("HTTP server started");
 
 }
