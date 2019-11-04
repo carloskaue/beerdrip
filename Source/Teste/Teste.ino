@@ -4,10 +4,10 @@
 
     GPIO    NodeMCU   Name  |   msp
    ===================================
-     15       D8       SS   |   -
-     13       D7      MOSI  |   P1.7
-     12       D6      MISO  |   P1.6
-     14       D5      SCK   |   P1.5
+     15       D8       SS   |   P4.4   preto
+     13       D7      MOSI  |   P4.6   marrom
+     12       D6      MISO  |   P4.7   vermelho
+     14       D5      SCK   |   P4.5   rosa
 
     Note: If the ESP is booting at a moment when the SPI Master has the Select line HIGH (deselected)
     the ESP8266 WILL FAIL to boot!
@@ -17,35 +17,55 @@
 */
 #include <SPI.h>
 #define  _ss_pin SS
-unsigned char Txdata = 1;
-unsigned char Rxdata = 0;
 
-String str;
+void setDataBits(uint16_t bits) {
+    const uint32_t mask = ~((SPIMMOSI << SPILMOSI) | (SPIMMISO << SPILMISO));
+    bits--;
+    SPI1U1 = ((SPI1U1 & mask) | ((bits << SPILMOSI) | (bits << SPILMISO)));
+}
 
 void setup() 
 {
 	Serial.begin(115200);
 	SPI.begin();
-	SPI.setFrequency(16384);
-    SPI.beginTransaction(SPISettings(16384, MSBFIRST, SPI_MODE3));
-    str = "";
-	Serial.println();
+	//SPI.setFrequency(16384);
+    SPI.beginTransaction(SPISettings(16384, LSBFIRST, SPI_MODE2));
+
     pinMode(_ss_pin, OUTPUT);
     digitalWrite(_ss_pin, HIGH);
+    setDataBits(8);
 }
+
 
 void loop() 
-{
-   
-    str += SPI.transfer(0x02);
-    str+=" ";
-    str += SPI.transfer(0xA1);
-    str+=" ";
-    str += SPI.transfer(0x03);
-    Serial.println(str);
+{   
+	digitalWrite( _ss_pin , LOW ) ; // Habilita o SS.
+	delay(10);
+	while(SPI1CMD & SPIBUSY) {}
+	SPI1W0 = 0x02;
+	SPI1CMD |= SPIBUSY;
+	while(SPI1CMD & SPIBUSY) {}
 
-    str = "";
-    
-	delay(2000);
-     
+	Serial.print((uint8_t)(SPI1W0&0xFF), HEX);
+	Serial.print(" ");	
+	
+	SPI1W0 = 0xA1;
+	SPI1CMD |= SPIBUSY;
+	while(SPI1CMD & SPIBUSY) {}
+
+	Serial.print((uint8_t)(SPI1W0&0xFF), HEX);
+	Serial.print(" ");	
+	
+	SPI1W0 = 0x03;
+	SPI1CMD |= SPIBUSY;
+	while(SPI1CMD & SPIBUSY) {}
+
+	Serial.print((uint8_t)(SPI1W0&0xFF), HEX);
+	Serial.print("\n");	
+	
+	
+	digitalWrite( _ss_pin , HIGH ) ; // Desabilita o SS.   
+	delay(500);     
 }
+
+
