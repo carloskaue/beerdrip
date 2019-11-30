@@ -5,9 +5,9 @@
     GPIO    NodeMCU   Name  |   msp
    ===================================
      15       D8       SS   |   P4.4   preto
-     13       D7      MOSI  |   P4.6   marrom
-     12       D6      MISO  |   P4.7   vermelho
-     14       D5      SCK   |   P4.5   rosa
+     13       D7      MOSI  |   P4.6   vermelho
+     12       D6      MISO  |   P4.7   rosa
+     14       D5      SCK   |   P4.5   marrom
 
     Note: If the ESP is booting at a moment when the SPI Master has the Select line HIGH (deselected)
     the ESP8266 WILL FAIL to boot!
@@ -39,7 +39,7 @@ void setup()
 
 void loop() 
 {   
-	digitalWrite( _ss_pin , LOW ) ; // Habilita o SS.
+	digitalWrite( _ss_pin , HIGH ) ; // Habilita o SS.
 	delay(10);
 	while(SPI1CMD & SPIBUSY) {}
 	SPI1W0 = 0x02;
@@ -49,7 +49,7 @@ void loop()
 	Serial.print((uint8_t)(SPI1W0&0xFF), HEX);
 	Serial.print(" ");	
 	
-	SPI1W0 = 0xA1;
+	SPI1W0 = 0xA0;
 	SPI1CMD |= SPIBUSY;
 	while(SPI1CMD & SPIBUSY) {}
 
@@ -64,8 +64,6 @@ void loop()
 	Serial.print("\n");	
 	
 	
-	digitalWrite( _ss_pin , HIGH ) ; // Desabilita o SS.   
+	digitalWrite( _ss_pin , LOW ) ; // Desabilita o SS.   
 	delay(500);     
 }
-
-

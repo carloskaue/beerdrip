@@ -21,7 +21,7 @@ class MspComunication
 {
 	public:
 		MspComunication(uint16_t wFrequency);
-		void begin(void);
+		void begin(uint16_t bits);
 		bool getMSPStart(void);					// Faz a requição para marcar o inicio do funcionamento do msp
 		bool getDataBeer(void);					// Faz a requisição para pegar os dados do msp.
 

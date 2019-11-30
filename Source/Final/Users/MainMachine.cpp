@@ -359,7 +359,7 @@ void MainMachine::mainMachineEvents(EVENT udtEvent)
 				case EVT_Constructor:
 				{				
 					// Configura a comunicação SPI	
-					mspComunication.begin();
+					mspComunication.begin(8);
 
 					setTimeout(T1s0);					
 				}break;
@@ -384,7 +384,7 @@ void MainMachine::mainMachineEvents(EVENT udtEvent)
 					{
 						// Alguma coisa deu errado, espera mais 1 segundo para tentar
 						// a comunicação novamente.
-						setTimeout(T60s0);
+						setTimeout(T1s0);
 					}	
 				}
 				break;
