@@ -1,7 +1,7 @@
 #include <MspComunication.h>
 #include <SPI.h>
 
-
+#define DELAY_FOR_RECEPTION_MSP() delay(50)
 
 const uint8_t FrameStartig[3] 			= {0x02, 0xA1, 0x03};
 const uint8_t FrameConsumptionRequest[3] 	= {0x02, 0xA5, 0x03};
@@ -17,7 +17,7 @@ MspComunication::MspComunication(uint16_t wFrequency)
 void MspComunication::begin(uint16_t bits)
 {
 	SPI.begin();
-	SPI.beginTransaction(SPISettings(wFrequency, MSBFIRST, SPI_MODE1));
+	SPI.beginTransaction(SPISettings(mwFrequency, LSBFIRST, SPI_MODE2));
 	setDataBits(bits);
 
 	// Aquivo dos dados
@@ -41,10 +41,16 @@ bool MspComunication::getMSPStart(void)
 	unsigned char indice = 0;
 	unsigned char cont = 0;
 	 
+	 // Envia os dados
 	for (uint8_t indice = 0; indice < 3; indice ++)
 	{
 		transfer(FrameStartig[indice]);
 	}
+	//Espera um tempo para que o msp possa processar os dados recebidos
+	DELAY_FOR_RECEPTION_MSP();
+
+	// Espera receber a sequencia 0x02, 0xE0 e 0x03
+	// caso não receba a sequencia em até 10 bytes retorna falso
 	while (cont < 10)
 	{
 		data[indice]=transfer(0);
@@ -60,7 +66,7 @@ bool MspComunication::getMSPStart(void)
 		{
 			return true;
 		}
-		cont++
+		cont++;
 	}
 	return false;
 }
@@ -74,7 +80,9 @@ bool MspComunication::getDataBeer()
 	{
 		transfer(FrameStartig[indice]);
 	}
-	
+	//Espera um tempo para que o msp possa processar os dados recebidos
+	DELAY_FOR_RECEPTION_MSP();
+
 	while(data != 0x03)
 	{
 		data = transfer(0);
@@ -93,7 +101,7 @@ bool MspComunication::getDataBeer()
 	}
 
 }
-bool MspComunication::setDataBits(uint16_t bits) {
+void MspComunication::setDataBits(uint16_t bits) {
     const uint32_t mask = ~((SPIMMOSI << SPILMOSI) | (SPIMMISO << SPILMISO));
     bits--;
     SPI1U1 = ((SPI1U1 & mask) | ((bits << SPILMOSI) | (bits << SPILMISO)));

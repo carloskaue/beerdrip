@@ -29,5 +29,6 @@ class MspComunication
 	private:
 		uint16_t mwFrequency;
 		uint8_t transfer(uint8_t data);
+		void setDataBits(uint16_t bits);
 };
 #endif
